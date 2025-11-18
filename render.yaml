@@ -1,47 +1,49 @@
 services:
   - type: web
-    name: sui-vip-bot
+    name: sui-vip-bot          # اسم السيرفس على Render (عدّله لو حابب)
     env: python
     plan: starter
+    region: frankfurt          # أو region اللي انت مختارها في Render
 
-    buildCommand: "pip install -r requirements.txt"
-    startCommand: "python main.py"
+    buildCommand: pip install -r requirements.txt
+    startCommand: python main.py
 
     envVars:
-      - key: PYTHON_VERSION
-        value: 3.10.12
+      PYTHON_VERSION:
+        value: "3.11.8"        # مهم جداً لتجنّب مشاكل pandas/scipy
 
-      # مفاتيح المنصة (هتكمّل القيم من لوحة Render)
-      - key: API_KEY
+      # ===== مفاتيح Bybit (تكتبهم من Dashboard يدويًا) =====
+      API_KEY:
         sync: false
-      - key: API_SECRET
+      API_SECRET:
         sync: false
 
-      # إعدادات البوت الأساسية
-      - key: SYMBOL
-        value: "SUI/USDT:USDT"
-      - key: TIMEFRAME
+      # ===== إعدادات البوت =====
+      BASE_URL:
+        value: "https://sui-vip-bot.onrender.com"   # عدّلها لو URL مختلف
+      PORT:
+        value: "5000"
+
+      EXCHANGE:
+        value: "bybit"         # البوت يفهم إن المنصّة Bybit
+
+      EXECUTE_ORDERS:
+        value: "true"          # لو عايز تشغيل حقيقي
+      DRY_RUN:
+        value: "false"         # جرّب تخليها true لو عايز تيست بدون تنفيذ
+
+      SYMBOL:
+        value: "SUI/USDT:USDT" # نفس الصيغة اللي في الكود
+      TIMEFRAME:
         value: "15m"
 
-      - key: EXECUTE_ORDERS
-        value: "true"
-      - key: DRY_RUN
-        value: "false"
-      - key: SHADOW_MODE
-        value: "false"
-
-      # إعدادات Range Filter
-      - key: RF_PERIOD
+      RF_PERIOD:
         value: "20"
-      - key: RF_MULT
+      RF_MULT:
         value: "3.5"
 
-      # ADX Gate
-      - key: ADX_GATE
+      ADX_GATE:
         value: "20"
 
-      # إعدادات السيرفر
-      - key: BASE_URL
-        value: "https://sui-vip-bot.onrender.com"
-      - key: PORT
-        value: "5000"
+      SHADOW_MODE:
+        value: "false"         # يخلي البوت يشتغل حقيقي مش ظل فقط
