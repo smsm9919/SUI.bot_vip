@@ -1,0 +1,52 @@
+services:
+  - type: web
+    name: sui-vip-bot
+    env: python
+    plan: starter
+    region: frankfurt
+    buildCommand: |
+      pip install --upgrade pip
+      pip install --upgrade setuptools wheel
+      pip install -r requirements.txt
+    startCommand: |
+      python main.py
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.8
+      - key: BASE_URL
+        value: "https://sui-vip-bot.onrender.com"
+      - key: PORT
+        value: 5000
+
+      # مفاتيح البورصة (تغيّرهم بنفسك)
+      - key: API_KEY
+        sync: false
+      - key: API_SECRET
+        sync: false
+
+      # إعدادات عامة للبوت
+      - key: SYMBOL
+        value: "SUI/USDT:USDT"
+      - key: TIMEFRAME
+        value: "15m"
+      - key: EXECUTE_ORDERS
+        value: "true"
+      - key: SHADOW_MODE
+        value: "false"
+      - key: DRY_RUN
+        value: "false"
+
+      # إعدادات Golden Zones / SMC / OB / FVG (لو البوت يستخدمها)
+      - key: ADX_GATE
+        value: "20"
+      - key: RF_PERIOD
+        value: "20"
+      - key: RF_MULT
+        value: "3.5"
+
+    healthCheckPath: /health
+    disk:
+      name: bot-disk
+      mountPath: /data
+      sizeGB: 1
+
