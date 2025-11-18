@@ -3,31 +3,44 @@ services:
     name: sui-vip-bot
     env: python
     plan: starter
-    buildCommand: pip install -r requirements.txt
-    startCommand: python main.py
+
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python main.py"
+
     envVars:
-      - key: BYBIT_API_KEY
-        sync: false        # هتدخّل القيمة من لوحة Render
-      - key: BYBIT_API_SECRET
+      - key: PYTHON_VERSION
+        value: 3.10.12
+
+      # مفاتيح المنصة (هتكمّل القيم من لوحة Render)
+      - key: API_KEY
         sync: false
-      - key: EXCHANGE
-        value: "bybit"
+      - key: API_SECRET
+        sync: false
+
+      # إعدادات البوت الأساسية
       - key: SYMBOL
         value: "SUI/USDT:USDT"
       - key: TIMEFRAME
         value: "15m"
-      - key: ADX_GATE
-        value: "20"
-      - key: RF_PERIOD
-        value: "20"
-      - key: RF_MULT
-        value: "3.5"
+
       - key: EXECUTE_ORDERS
         value: "true"
       - key: DRY_RUN
         value: "false"
       - key: SHADOW_MODE
         value: "false"
+
+      # إعدادات Range Filter
+      - key: RF_PERIOD
+        value: "20"
+      - key: RF_MULT
+        value: "3.5"
+
+      # ADX Gate
+      - key: ADX_GATE
+        value: "20"
+
+      # إعدادات السيرفر
       - key: BASE_URL
         value: "https://sui-vip-bot.onrender.com"
       - key: PORT
